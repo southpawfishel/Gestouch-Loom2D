@@ -209,7 +209,7 @@ package org.gestouch.core
 			const displayListAdapter:IDisplayListAdapter = Gestouch.gestouch_internal_getDisplayListAdapter(target);
 			if (!displayListAdapter)
 			{
-				throw new Error("Display list adapter not found for target of type '" + getQualifiedClassName(target) + "'.");
+				throw new Error("Display list adapter not found for target of type '" + getFullTypeName(target) + "'.");
 			}
 			const hierarchy:Vector.<Object> = displayListAdapter.getHierarchy(target);
 			const hierarchyLength:uint = hierarchy.length;
