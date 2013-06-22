@@ -1,6 +1,7 @@
 package org.gestouch.utils
 {
-	import Loom2D.Math.Point;
+	import loom2d.math.Point;
+	import system.platform.Platform;
 	/**
 	 * Set of constants.
 	 * 
@@ -11,8 +12,7 @@ package org.gestouch.utils
 		/**
 		 * Precalculated coefficient used to convert 'inches per second' value to 'pixels per millisecond' value.
 		 */
-		//public static const IPS_TO_PPMS:Number = Capabilities.screenDPI * 0.001;
-		public static const IPS_TO_PPMS:Number = 326 * 0.001; // TODO
+		public static const IPS_TO_PPMS:Number = Platform.getDPI() * 0.001;
 		/**
 		 * Precalculated coefficient used to convert radians to degress.
 		 */

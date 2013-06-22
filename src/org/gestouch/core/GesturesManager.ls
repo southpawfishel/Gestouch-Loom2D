@@ -1,15 +1,15 @@
 package org.gestouch.core
 {
-	import System.Errors.ArgumentError;
-	import System.Errors.IllegalOperationError;
+	import system.errors.ArgumentError;
+	import system.errors.IllegalOperationError;
 	import org.gestouch.gestures.Gesture;
 	import org.gestouch.input.NativeInputAdapter;
 
-	import Loom2D.DisplayObject;
-	import Loom2D.Display.Stage;
-	import Loom2D.Events.Event;
-	import Loom2D.Events.EventDispatcher;
-	import Loom2D.Loom2D;
+	import loom2d.displayObject;
+	import loom2d.display.Stage;
+	import loom2d.events.Event;
+	import loom2d.events.EventDispatcher;
+	import loom2d.Loom2D;
 
 	/**
 	 * @author Pavel fljot
@@ -228,7 +228,7 @@ package org.gestouch.core
 			// Create a sorted(!) list of gestures which are interested in this touch.
 			// Sorting priority: deeper target has higher priority, recently added gesture has higher priority.
 			var gesturesForTarget:Vector.<Gesture>;
-			for each (target in hierarchy)
+			for each (var target in hierarchy)
 			{
 				gesturesForTarget = _gesturesForTargetMap[target] as Vector.<Gesture>;
 				if (gesturesForTarget)

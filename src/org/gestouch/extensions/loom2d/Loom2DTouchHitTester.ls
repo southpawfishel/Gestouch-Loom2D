@@ -1,6 +1,6 @@
 package org.gestouch.extensions.loom2d
 {
-	import Loom2D.Loom2D;
+	import loom2d.Loom2D;
 
 	import org.gestouch.core.ITouchHitTester;
 

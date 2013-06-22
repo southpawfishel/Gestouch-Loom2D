@@ -3,7 +3,7 @@ package org.gestouch.core
 	import org.gestouch.extensions.loom2d.Loom2DDisplayListAdapter;
 	import org.gestouch.extensions.loom2d.Loom2DTouchHitTester;
 
-	import Loom2D.Display.DisplayObject;
+	import loom2d.display.DisplayObject;
 
 
 	/**

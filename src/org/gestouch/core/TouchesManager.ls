@@ -1,8 +1,8 @@
 package org.gestouch.core
 {
-	import Loom2D.Display.Stage;
-	import Loom2D.Math.Point;
-	import System.Platform.Platform;
+	import loom2d.display.Stage;
+	import loom2d.math.Point;
+	import system.platform.Platform;
 
 
 	/**

@@ -3,8 +3,8 @@ package org.gestouch.input
 	import org.gestouch.core.IInputAdapter;
 	import org.gestouch.core.TouchesManager;
 
-	import Loom2D.Display.Stage;
-	import Loom2D.Events.TouchEvent;
+	import loom2d.display.Stage;
+	import loom2d.events.TouchEvent;
 
 
 	/**

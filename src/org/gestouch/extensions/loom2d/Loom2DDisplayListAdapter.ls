@@ -1,7 +1,7 @@
 package org.gestouch.extensions.loom2d
 {
-	import Loom2D.Display.DisplayObject;
-	import Loom2D.Display.DisplayObjectContainer;
+	import loom2d.display.DisplayObject;
+	import loom2d.display.DisplayObjectContainer;
 
 	import org.gestouch.core.IDisplayListAdapter;
 

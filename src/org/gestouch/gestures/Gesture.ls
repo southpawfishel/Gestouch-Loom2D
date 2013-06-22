@@ -7,9 +7,10 @@ package org.gestouch.gestures
 	import org.gestouch.core.Touch;
 	import org.gestouch.events.GestureEvent;
 
-	import System.Errors.IllegalOperationError;
-	import Loom2D.Events.EventDispatcher;
-	import Loom2D.Math.Point;
+	import system.errors.IllegalOperationError;
+	import system.platform.Platform;
+	import loom2d.events.EventDispatcher;
+	import loom2d.math.Point;
 	
 	
 	/**
@@ -46,8 +47,7 @@ package org.gestouch.gestures
 		 * (not an accidental offset on touch), 
 		 * based on 20 pixels on a 252ppi device.
 		 */
-		//public static var DEFAULT_SLOP:uint = Math.round(20 / 252 * flash.system.Capabilities.screenDPI);
-		public static var DEFAULT_SLOT:uint = 20; // TODO
+		public static var DEFAULT_SLOP:uint = Math.round(20 / 252 * Platform.getDPI());
 		
 		/**
 		 * If a gesture should receive a touch.

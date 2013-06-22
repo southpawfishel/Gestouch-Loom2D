@@ -2,7 +2,7 @@ package org.gestouch.events
 {
 	import org.gestouch.core.GestureState;
 
-	import Loom2D.Events.Event;
+	import loom2d.events.Event;
 
 
 	/**

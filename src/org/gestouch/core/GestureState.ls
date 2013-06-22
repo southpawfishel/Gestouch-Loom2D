@@ -1,6 +1,6 @@
 package org.gestouch.core
 {
-	import System.Errors.IllegalOperationError;
+	import system.errors.IllegalOperationError;
 
 
 	/**

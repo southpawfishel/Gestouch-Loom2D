@@ -1,15 +1,16 @@
 package
 {
-    import Loom2D.Display.Image;
-    import Loom2D.Display.Loom2DGame;
-    import Loom2D.Display.StageScaleMode;
-    import Loom2D.Display.Quad;
-    import Loom2D.Math.Point;
-    import Loom2D.Text.BitmapFont;
-    import Loom2D.Textures.Texture;
-    import Loom2D.UI.Label;
+    import loom.Application;
+    import loom2d.display.Image;
+    import loom2d.display.Loom2DGame;
+    import loom2d.display.StageScaleMode;
+    import loom2d.display.Quad;
+    import loom2d.math.Point;
+    import loom2d.text.BitmapFont;
+    import loom2d.textures.Texture;
+    import loom2d.ui.Label;
 
-    public class GestouchLoom2D extends Loom2DGame
+    public class GestouchLoom2D extends Application
     {
         override public function run():void
         {
