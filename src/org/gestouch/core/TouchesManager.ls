@@ -1,7 +1,7 @@
 package org.gestouch.core
 {
 	import loom2d.display.Stage;
-	import loom2d.math.Point;
+	import org.gestouch.utils.Point;
 	import system.platform.Platform;
 
 
@@ -11,7 +11,7 @@ package org.gestouch.core
 	public class TouchesManager
 	{
 		protected var _gesturesManager:GesturesManager;
-		protected var _touchesMap:Object = {};
+		protected var _touchesMap:Dictionary.<uint, Touch> = {};
 		protected var _hitTesters:Vector.<ITouchHitTester> = new Vector.<ITouchHitTester>();
 		protected var _hitTesterPrioritiesMap:Dictionary.<ITouchHitTester, int> = new Dictionary.<ITouchHitTester, int>(true);
 		
@@ -29,9 +29,9 @@ package org.gestouch.core
 		}
 		
 		
-		public function getTouches(target:Object = null):Array
+		public function getTouches(target:Object = null):Vector.<Touch>
 		{
-			const touches:Array = [];
+			const touches:Vector.<Touch> = [];
 			if (!target || target is Stage)
 			{
 				// return all touches
@@ -82,13 +82,13 @@ package org.gestouch.core
 			}
 			
 			_hitTesters.splice(index, 1);
-			delete _hitTesterPrioritiesMap[touchHitTester];
+			_hitTesterPrioritiesMap.deleteKey(touchHitTester);
 		}
 		
 		
 		public function gestouch_internal_onTouchBegin(touchID:uint, x:Number, y:Number, nativeTarget:Object = null):Boolean
 		{			
-			if (touchID in _touchesMap)
+			if (_touchesMap[touchID] != null)
 				return false;// touch with specified ID is already registered and being tracked
 			
 			const location:Point = new Point(x, y);
@@ -176,7 +176,7 @@ package org.gestouch.core
 			
 			touch.gestouch_internal_updateLocation(x, y, Platform.getTime());
 			
-			delete _touchesMap[touchID];
+			_touchesMap.deleteKey(touchID);
 			_activeTouchesCount--;
 			
 			_gesturesManager.gestouch_internal_onTouchEnd(touch);
@@ -193,7 +193,7 @@ package org.gestouch.core
 			
 			touch.gestouch_internal_updateLocation(x, y, Platform.getTime());
 			
-			delete _touchesMap[touchID];
+			_touchesMap.deleteKey(touchID);
 			_activeTouchesCount--;
 			
 			_gesturesManager.gestouch_internal_onTouchCancel(touch);

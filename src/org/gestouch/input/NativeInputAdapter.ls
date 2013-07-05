@@ -4,7 +4,10 @@ package org.gestouch.input
 	import org.gestouch.core.TouchesManager;
 
 	import loom2d.display.Stage;
+	import loom2d.events.Touch;
 	import loom2d.events.TouchEvent;
+	import loom2d.events.TouchPhase;
+	import loom2d.Loom2D;
 
 
 	/**
@@ -88,13 +91,13 @@ package org.gestouch.input
 		
 		protected function touchBeginHandler(touch:Touch):void
 		{
-			_touchesManager.gestouch_internal_onTouchBegin(touch.id, touch.globalX, touch.globalYY, touch.target);
+			_touchesManager.gestouch_internal_onTouchBegin(touch.id, touch.globalX, touch.globalY);
 		}
 		
 		
 		protected function touchMoveHandler(touch:Touch):void
 		{
-			_touchesManager.gestouch_internal_onTouchMove(touch.id, touch.globalX, touch.globalYY, touch.target);
+			_touchesManager.gestouch_internal_onTouchMove(touch.id, touch.globalX, touch.globalY);
 		}
 		
 		
@@ -107,7 +110,7 @@ package org.gestouch.input
 			// }
 			// else
 			{
-				_touchesManager.gestouch_internal_onTouchEnd(touch.id, touch.globalX, touch.globalYY, touch.target);
+				_touchesManager.gestouch_internal_onTouchEnd(touch.id, touch.globalX, touch.globalY);
 			}
 		}
 	}

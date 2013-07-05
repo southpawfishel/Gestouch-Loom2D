@@ -14,7 +14,7 @@ package org.gestouch.extensions.loom2d
 		private var targetWeakStorage:Dictionary.<DisplayObject, Object>;
 		
 		
-		public function StarlingDisplayListAdapter(target:DisplayObject = null)
+		public function Loom2DDisplayListAdapter(target:DisplayObject = null)
 		{
 			if (target)
 			{
@@ -58,9 +58,9 @@ package org.gestouch.extensions.loom2d
 		}
 		
 		
-		public function reflect():Class
+		public function reflect():String
 		{
-			return Loom2DDisplayListAdapter;
+			return Loom2DDisplayListAdapter.getTypeName();
 		}
 	}
 }

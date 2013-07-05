@@ -10,7 +10,7 @@ package org.gestouch.gestures
 	import system.errors.IllegalOperationError;
 	import system.platform.Platform;
 	import loom2d.events.EventDispatcher;
-	import loom2d.math.Point;
+	import org.gestouch.utils.Point;
 	
 	
 	/**
@@ -78,7 +78,7 @@ package org.gestouch.gestures
 		/**
 		 * Map (generic object) of tracking touch points, where keys are touch points IDs.
 		 */
-		protected var _touchesMap:Object = {};
+		protected var _touchesMap:Dictionary.<uint, Touch> = {};
 		protected var _centralPoint:Point = new Point();
 		/**
 		 * List of gesture we require to fail.
@@ -129,15 +129,15 @@ package org.gestouch.gestures
 		 */
 		public function get target():Object
 		{
-			return _targetAdapter ? _targetAdapter.target : null;
+			return targetAdapter ? targetAdapter.target as Object : null;
 		}
 		public function set target(value:Object):void
 		{
-			var target:Object = this.target;
-			if (target == value)
+			var myTarget:Object = this.target;
+			if (myTarget == value)
 				return;
 			
-			uninstallTarget(target);
+			uninstallTarget(myTarget);
 			_targetAdapter = value ? Gestouch.gestouch_internal_createGestureTargetAdapter(value) : null;
 			installTarget(value);
 		}
@@ -223,14 +223,14 @@ package org.gestouch.gestures
 		{
 			super.addEventListener(type, listener);
 			
-			const listenerProps:Array = eventListeners[listener] as Array;
+			const listenerProps:Vector.<Object> = eventListeners[listener] as Vector.<Object>;
 			if (listenerProps)
 			{
-				listenerProps.push(type, useCapture);
+				listenerProps.push(type, false);
 			}
 			else
 			{
-				eventListeners[listener] = [type, useCapture];
+				eventListeners[listener] = [type, false];
 			}
 		}
 		
@@ -239,15 +239,15 @@ package org.gestouch.gestures
 		{
 			for (var listener:Object in eventListeners)
 			{
-				const listenerProps:Array = eventListeners[listener] as Array;
+				const listenerProps:Vector.<Object> = eventListeners[listener] as Vector.<Object>;
 				
 				var n:uint = listenerProps.length;
 				for (var i:uint = 0; i < n;)
 				{
-					super.removeEventListener(listenerProps[i++] as String, listener as Function, listenerProps[i++] as Boolean);
+					super.removeEventListener(listenerProps[i++] as String, listener as Function);
 				}
 				
-				delete eventListeners[listener];
+				eventListeners.deleteKey(listener);
 			}
 			
 //			eventListeners = new Dictionary(true);
@@ -262,15 +262,16 @@ package org.gestouch.gestures
 		 * 
 		 * @see performance optimization tips
 		 */
-		public function reflect():Class
+		public function reflect():String
 		{
 			throw Error("reflect() is abstract method and must be overridden.");
+			return null;
 		}
 		
 		
 		public function isTrackingTouch(touchID:uint):Boolean
 		{
-			return (_touchesMap[touchID] != undefined);
+			return (_touchesMap[touchID] != null);
 		}
 		
 		
@@ -292,7 +293,7 @@ package org.gestouch.gestures
 			_touchesCount = 0;
 			_idle = true;
 			
-			for (var key:* in _gesturesToFail)
+			for (var key:Object in _gesturesToFail)
 			{
 				var gestureToFail:Gesture = key as Gesture;
 				gestureToFail.removeEventListener(GestureEvent.GESTURE_STATE_CHANGE, gestureToFail_stateChangeHandler);
@@ -418,9 +419,9 @@ package org.gestouch.gestures
 		 */
 		protected function ignoreTouch(touch:Touch):void
 		{
-			if (_touchesMap.hasOwnProperty(touch.id))
+			if (_touchesMap[touch.id] != null)
 			{
-				delete _touchesMap[touch.id];
+				_touchesMap.deleteKey(touch.id);
 				_touchesCount--;
 			}
 		}
@@ -511,7 +512,7 @@ package org.gestouch.gestures
 			if (newState == GestureState.BEGAN || newState == GestureState.RECOGNIZED)
 			{
 				var gestureToFail:Gesture;
-				var key:*;
+				var key:Object;
 				// first we check if other required-to-fail gestures recognized
 				// TODO: is this really necessary? using "requireGestureToFail" API assume that
 				// required-to-fail gesture always recognizes AFTER this one.
@@ -541,7 +542,7 @@ package org.gestouch.gestures
 						for (key in _gesturesToFail)
 						{
 							gestureToFail = key as Gesture;
-							gestureToFail.addEventListener(GestureEvent.GESTURE_STATE_CHANGE, gestureToFail_stateChangeHandler, false, 0, true);
+							gestureToFail.addEventListener(GestureEvent.GESTURE_STATE_CHANGE, gestureToFail_stateChangeHandler);
 						}
 						
 						return false;
@@ -552,7 +553,7 @@ package org.gestouch.gestures
 				}
 				
 				
-				if (gestureShouldBeginCallback != null && !gestureShouldBeginCallback(this))
+				if (gestureShouldBeginCallback != null && !gestureShouldBeginCallback.call(this))
 				{
 					setState(GestureState.FAILED);
 					return false;
@@ -601,7 +602,7 @@ package org.gestouch.gestures
 			var touchLocation:Point;
 			var x:Number = 0;
 			var y:Number = 0;
-			for (var touchID:String in _touchesMap)
+			for (var touchID:uint in _touchesMap)
 			{
 				touchLocation = (_touchesMap[int(touchID)] as Touch).location; 
 				x += touchLocation.x;
@@ -657,7 +658,7 @@ package org.gestouch.gestures
 		
 		public function gestouch_internal_touchEndHandler(touch:Touch):void
 		{
-			delete _touchesMap[touch.id];
+			_touchesMap.deleteKey(touch.id);
 			_touchesCount--;
 			
 			onTouchEnd(touch);
@@ -666,7 +667,7 @@ package org.gestouch.gestures
 		
 		public function gestouch_internal_touchCancelHandler(touch:Touch):void
 		{
-			delete _touchesMap[touch.id];
+			_touchesMap.deleteKey(touch.id);
 			_touchesCount--;
 			
 			onTouchCancel(touch);
@@ -692,7 +693,7 @@ package org.gestouch.gestures
 			
 			if (event.newState == GestureState.FAILED)
 			{
-				for (var key:* in _gesturesToFail)
+				for (var key:Object in _gesturesToFail)
 				{
 					var gestureToFail:Gesture = key as Gesture;
 					if (gestureToFail.state == GestureState.POSSIBLE)

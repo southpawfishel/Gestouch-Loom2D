@@ -5,7 +5,7 @@ package org.gestouch.core
 	import org.gestouch.gestures.Gesture;
 	import org.gestouch.input.NativeInputAdapter;
 
-	import loom2d.displayObject;
+	import loom2d.display.DisplayObject;
 	import loom2d.display.Stage;
 	import loom2d.events.Event;
 	import loom2d.events.EventDispatcher;
@@ -126,7 +126,7 @@ package org.gestouch.core
 				}
 				else
 				{
-					delete _gesturesForTargetMap[target];
+					_gesturesForTargetMap.deleteKey(target);
 					if (target is EventDispatcher)
 					{
 						(target as EventDispatcher).removeEventListener(Event.ADDED_TO_STAGE, gestureTarget_addedToStageHandler);
@@ -134,7 +134,7 @@ package org.gestouch.core
 				}
 			}
 			
-			delete _gesturesMap[gesture];
+			_gesturesMap.deleteKey(gesture);
 			
 			gesture.reset();
 		}
@@ -175,9 +175,9 @@ package org.gestouch.core
 						if (gesture.gestouch_internal_canPreventGesture(otherGesture) &&
 							otherGesture.gestouch_internal_canBePreventedByGesture(gesture) &&
 							(gesture.gesturesShouldRecognizeSimultaneouslyCallback == null ||
-							 gesture.gesturesShouldRecognizeSimultaneouslyCallback(gesture, otherGesture)) &&
+							 gesture.gesturesShouldRecognizeSimultaneouslyCallback.call(gesture, otherGesture)) &&
 							(otherGesture.gesturesShouldRecognizeSimultaneouslyCallback == null ||
-							 otherGesture.gesturesShouldRecognizeSimultaneouslyCallback(otherGesture, gesture)))
+							 otherGesture.gesturesShouldRecognizeSimultaneouslyCallback.call(otherGesture, gesture)))
 						{
 							otherGesture.gestouch_internal_setState_internal(GestureState.FAILED);
 						}
@@ -209,7 +209,7 @@ package org.gestouch.core
 			const displayListAdapter:IDisplayListAdapter = Gestouch.gestouch_internal_getDisplayListAdapter(target);
 			if (!displayListAdapter)
 			{
-				throw new Error("Display list adapter not found for target of type '" + getFullTypeName(target) + "'.");
+				throw new Error("Display list adapter not found for target of type '" + target.getFullTypeName() + "'.");
 			}
 			const hierarchy:Vector.<Object> = displayListAdapter.getHierarchy(target);
 			const hierarchyLength:uint = hierarchy.length;
@@ -228,9 +228,9 @@ package org.gestouch.core
 			// Create a sorted(!) list of gestures which are interested in this touch.
 			// Sorting priority: deeper target has higher priority, recently added gesture has higher priority.
 			var gesturesForTarget:Vector.<Gesture>;
-			for each (var target in hierarchy)
+			for each (var targetObject in hierarchy)
 			{
-				gesturesForTarget = _gesturesForTargetMap[target] as Vector.<Gesture>;
+				gesturesForTarget = _gesturesForTargetMap[targetObject] as Vector.<Gesture>;
 				if (gesturesForTarget)
 				{
 					i = gesturesForTarget.length;
@@ -239,7 +239,7 @@ package org.gestouch.core
 						gesture = gesturesForTarget[i];
 						if (gesture.enabled &&
 							(gesture.gestureShouldReceiveTouchCallback == null ||
-							 gesture.gestureShouldReceiveTouchCallback(gesture, touch)))
+							 gesture.gestureShouldReceiveTouchCallback.call(gesture, touch)))
 						{
 							//TODO: optimize performance! decide between unshift() vs [i++] = gesture + reverse()
 							gesturesForTouch.unshift(gesture);
@@ -306,7 +306,7 @@ package org.gestouch.core
 			
 			gesturesForTouch.length = 0;// release for GC
 			
-			delete _gesturesForTouchMap[touch];//TODO: remove this once Touch objects are pooled
+			_gesturesForTouchMap.deleteKey(touch);//TODO: remove this once Touch objects are pooled
 		}
 		
 		
@@ -327,7 +327,7 @@ package org.gestouch.core
 			
 			gesturesForTouch.length = 0;// release for GC
 			
-			delete _gesturesForTouchMap[touch];//TODO: remove this once Touch objects are pooled
+			_gesturesForTouchMap.deleteKey(touch);//TODO: remove this once Touch objects are pooled
 		}
 		
 		

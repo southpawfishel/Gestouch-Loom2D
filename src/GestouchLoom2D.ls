@@ -2,11 +2,9 @@ package
 {
     import loom.Application;
     import loom2d.display.Image;
-    import loom2d.display.Loom2DGame;
     import loom2d.display.StageScaleMode;
     import loom2d.display.Quad;
     import loom2d.math.Point;
-    import loom2d.text.BitmapFont;
     import loom2d.textures.Texture;
     import loom2d.ui.Label;
 
@@ -38,23 +36,12 @@ package
             sprite.y = stage.stageHeight - 120;
             stage.addChild(sprite);
 
-            var fontTexture = Texture.fromAsset("assets/Curse-hd.png");
-            var fontAsset = File.loadTextFile("assets/Curse-hd.fnt");
-            var font = new BitmapFont(fontTexture, fontAsset);
-            var fontSprite = font.createSprite(480, 128, "Hello Loom!", -1, 0xffffff, "center", "center", false, true, null);          
-            fontSprite.x = 240;
-            fontSprite.y = stage.stageHeight - 240;
-            fontSprite.pivotX = fontSprite.width / 2;
-            fontSprite.pivotY = fontSprite.height / 2;
-            stage.addChild(fontSprite);
-
-            // var label = new Label("assets/Curse-hd.fnt", new Point(480, 128));
-            // label.text = "Hello Loom!";
-            // label.pivotX = label.width / 2;
-            // label.pivotY = label.height / 2;
-            // label.x = 240;
-            // label.y = stage.stageHeight - 240;
-            // stage.addChild(label);
+            var label = new Label("assets/Curse-hd.fnt", new Point(480, 128));
+            label.text = "Hello Loom!";
+            label.x = 240;
+            label.y = stage.stageHeight - 240;
+			label.center();
+            stage.addChild(label);
         }
     }
 }

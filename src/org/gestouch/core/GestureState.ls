@@ -65,9 +65,9 @@ package org.gestouch.core
 		
 		private function setValidNextStates(...states):void
 		{
-			for each (var state:GestureState in states)
+			for each (var state in states)
 			{
-				validTransitionStateMap[state] = true;
+				validTransitionStateMap[state as GestureState] = true;
 			}
 		}
 		
@@ -80,7 +80,7 @@ package org.gestouch.core
 		
 		public function gestouch_internal_canTransitionTo(state:GestureState):Boolean
 		{
-			return (state in validTransitionStateMap);
+			return (validTransitionStateMap[state] != null);
 		}
 		
 		

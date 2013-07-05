@@ -4,7 +4,7 @@ package org.gestouch.extensions.loom2d
 
 	import org.gestouch.core.ITouchHitTester;
 
-	import flash.geom.Point;
+	import loom2d.math.Point;
 
 
 	/**

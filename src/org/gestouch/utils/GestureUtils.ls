@@ -1,6 +1,5 @@
 package org.gestouch.utils
 {
-	import loom2d.math.Point;
 	import system.platform.Platform;
 	/**
 	 * Set of constants.

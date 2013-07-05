@@ -11,7 +11,7 @@ package org.gestouch.core
 	 */
 	final public class Gestouch
 	{
-		private static const _displayListAdaptersMap:Dictionary.<Class, IDisplayListAdapter> = new Dictionary.<Class, IDisplayListAdapter>();
+		private static const _displayListAdaptersMap:Dictionary.<String, IDisplayListAdapter> = new Dictionary.<String, IDisplayListAdapter>();
 		
 		public static function Gestouch()
 		{
@@ -62,7 +62,7 @@ package org.gestouch.core
 		}
 		
 		
-		public static function addDisplayListAdapter(targetClass:Class, adapter:IDisplayListAdapter):void
+		public static function addDisplayListAdapter(targetClass:String, adapter:IDisplayListAdapter):void
 		{
 			if (!targetClass || !adapter)
 			{
@@ -95,10 +95,15 @@ package org.gestouch.core
 			const adapter:IDisplayListAdapter = Gestouch.gestouch_internal_getDisplayListAdapter(target);
 			if (adapter)
 			{
-				return new (adapter.reflect())(target);
+				if (adapter.reflect() == "Loom2DDisplayListAdapter")
+				{
+					return new Loom2DDisplayListAdapter(target as DisplayObject);
+				}
+				//return Type.getTypeByName(adapter.reflect()).getConstructor().invoke(target) as IDisplayListAdapter;
 			}
 			
 			throw new Error("Cannot create adapter for target " + target + " of type " + target.getFullTypeName() + ".");
+			return null;
 		}
 		
 		
@@ -106,8 +111,8 @@ package org.gestouch.core
 		{
 			for (var key:Object in _displayListAdaptersMap)
 			{
-				var targetClass:Class = key as Class;
-				if (object is targetClass)
+				var targetClass:String = key as String;
+				if (object == targetClass)
 				{
 					return _displayListAdaptersMap[key] as IDisplayListAdapter;
 				}
@@ -120,7 +125,7 @@ package org.gestouch.core
 		private static function initClass():void
 		{
 			addTouchHitTester(new Loom2DTouchHitTester());
-			addDisplayListAdapter(DisplayObject, new Loom2DDisplayListAdapter());
+			addDisplayListAdapter("DisplayObject", new Loom2DDisplayListAdapter());
 		}
 	}
 }
