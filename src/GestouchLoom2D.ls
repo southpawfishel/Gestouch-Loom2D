@@ -13,6 +13,8 @@ package
     import org.gestouch.gestures.LongPressGesture;
     import org.gestouch.gestures.ZoomGesture;
     import org.gestouch.gestures.PanGesture;
+    import org.gestouch.gestures.SwipeGesture;
+    import org.gestouch.gestures.SwipeGestureDirection;
 
     public class GestouchLoom2D extends Application
     {
@@ -60,6 +62,10 @@ package
             pan.addEventListener(GestureEvent.GESTURE_BEGAN, onPan);
             pan.addEventListener(GestureEvent.GESTURE_CHANGED, onPan);
             pan.addEventListener(GestureEvent.GESTURE_ENDED, onPan);
+
+            var swipe = new SwipeGesture(bg);
+            swipe.direction = SwipeGestureDirection.HORIZONTAL;
+            swipe.addEventListener(GestureEvent.GESTURE_RECOGNIZED, onSwipe);
         }
 
         private function onDoubleTap(event:GestureEvent):void
@@ -100,6 +106,23 @@ package
             {
                 sprite.x = 240;
                 sprite.y = stage.stageHeight - 120;
+            }
+        }
+
+        private function onSwipe(event:GestureEvent):void
+        {
+            var swipe = event.target as SwipeGesture;
+
+            if (event.type == GestureEvent.GESTURE_RECOGNIZED)
+            {
+                if (swipe.offsetX > 0)
+                {
+                    trace("USER SWIPED RIGHT!");
+                }
+                else
+                {
+                    trace("USER SWIPED LEFT!");
+                }
             }
         }
     }

@@ -2,7 +2,6 @@ package org.gestouch.core
 {
 	import loom2d.display.Stage;
 	import org.gestouch.utils.Point;
-	import system.platform.Platform;
 
 
 	/**

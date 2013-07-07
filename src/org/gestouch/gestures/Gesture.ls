@@ -7,8 +7,6 @@ package org.gestouch.gestures
 	import org.gestouch.core.Touch;
 	import org.gestouch.events.GestureEvent;
 
-	import system.errors.IllegalOperationError;
-	import system.platform.Platform;
 	import loom2d.events.EventDispatcher;
 	import org.gestouch.utils.Point;
 	

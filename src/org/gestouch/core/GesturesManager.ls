@@ -1,7 +1,5 @@
 package org.gestouch.core
 {
-	import system.errors.ArgumentError;
-	import system.errors.IllegalOperationError;
 	import org.gestouch.gestures.Gesture;
 	import org.gestouch.input.NativeInputAdapter;
 

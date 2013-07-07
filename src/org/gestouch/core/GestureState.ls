@@ -1,8 +1,5 @@
 package org.gestouch.core
 {
-	import system.errors.IllegalOperationError;
-
-
 	/**
 	 * @author Pavel fljot
 	 */

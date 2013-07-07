@@ -1,6 +1,5 @@
 package org.gestouch.utils
 {
-	import system.platform.Platform;
 	/**
 	 * Set of constants.
 	 * 
