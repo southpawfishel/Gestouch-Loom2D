@@ -11,9 +11,12 @@ package
     import org.gestouch.events.GestureEvent;
     import org.gestouch.gestures.TapGesture;
     import org.gestouch.gestures.LongPressGesture;
+    import org.gestouch.gestures.ZoomGesture;
 
     public class GestouchLoom2D extends Application
     {
+        protected var sprite:Image = null;
+
         override public function run():void
         {
             super.run();
@@ -33,7 +36,7 @@ package
             var bg = new Quad(stage.stageWidth, stage.stageHeight, 0xff0000);
             stage.addChild(bg);
 
-            var sprite = new Image(Texture.fromAsset("assets/logo.png"));
+            sprite = new Image(Texture.fromAsset("assets/logo.png"));
             sprite.pivotX = sprite.width / 2;
             sprite.pivotY = sprite.height / 2;
             sprite.x = 240;
@@ -55,6 +58,11 @@ package
             longPress.addEventListener(GestureEvent.GESTURE_BEGAN, onLongPress);
             longPress.addEventListener(GestureEvent.GESTURE_CHANGED, onLongPress);
             longPress.addEventListener(GestureEvent.GESTURE_ENDED, onLongPress);
+
+            var zoom = new ZoomGesture(stage);
+            zoom.addEventListener(GestureEvent.GESTURE_BEGAN, onZoom);
+            zoom.addEventListener(GestureEvent.GESTURE_CHANGED, onZoom);
+            zoom.addEventListener(GestureEvent.GESTURE_ENDED, onZoom);
         }
 
         private function onDoubleTap(event:GestureEvent):void
@@ -64,7 +72,22 @@ package
 
         private function onLongPress(event:GestureEvent):void
         {
-            trace("LONG PRESS! " + event.toString());
+            trace("LONG PRESS! " + event.type);
+        }
+
+        private function onZoom(event:GestureEvent):void
+        {
+            var zoom = event.target as ZoomGesture;
+
+            if (event.type == GestureEvent.GESTURE_CHANGED)
+            {
+                sprite.scaleX *= zoom.scaleX;
+                sprite.scaleY *= zoom.scaleY;
+            }
+            if (event.type == GestureEvent.GESTURE_ENDED)
+            {
+                sprite.scale = 1;
+            }
         }
     }
 }

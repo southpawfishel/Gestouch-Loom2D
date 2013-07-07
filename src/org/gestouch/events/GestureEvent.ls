@@ -42,7 +42,7 @@ package org.gestouch.events
 		
 		override public function toString():String
 		{
-			return "GestureEvent " + type + " " + oldState.toString() + " " + newState.toString();
+			return "GestureEvent type:" + type + " oldState:" + oldState.toString() + " newState:" + newState.toString();
 			//return formatToString("GestureEvent", "type", "oldState", "newState");
 		}
 	}
