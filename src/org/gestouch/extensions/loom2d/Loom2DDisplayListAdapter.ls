@@ -58,9 +58,9 @@ package org.gestouch.extensions.loom2d
 		}
 		
 		
-		public function reflect():String
+		public function reflect():Type
 		{
-			return Loom2DDisplayListAdapter.getTypeName();
+			return getType();
 		}
 	}
 }
