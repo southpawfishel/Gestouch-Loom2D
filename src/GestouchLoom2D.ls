@@ -12,6 +12,7 @@ package
     import org.gestouch.gestures.TapGesture;
     import org.gestouch.gestures.LongPressGesture;
     import org.gestouch.gestures.ZoomGesture;
+    import org.gestouch.gestures.PanGesture;
 
     public class GestouchLoom2D extends Application
     {
@@ -23,15 +24,6 @@ package
 
             // Comment out this line to turn off automatic scaling.
             stage.scaleMode = StageScaleMode.LETTERBOX;
-
-            // Setup anything else, like UI, or game objects.
-            // var bg = new Image(Texture.fromAsset("assets/bg.png"));
-            // bg.pivotX = bg.width / 2;
-            // bg.pivotY = bg.height / 2;
-            // bg.x = 240;
-            // bg.y = 160;
-            // bg.scale = 0.5;
-            // stage.addChild(bg);
 
             var bg = new Quad(stage.stageWidth, stage.stageHeight, 0xff0000);
             stage.addChild(bg);
@@ -63,6 +55,11 @@ package
             zoom.addEventListener(GestureEvent.GESTURE_BEGAN, onZoom);
             zoom.addEventListener(GestureEvent.GESTURE_CHANGED, onZoom);
             zoom.addEventListener(GestureEvent.GESTURE_ENDED, onZoom);
+
+            var pan = new PanGesture(sprite);
+            pan.addEventListener(GestureEvent.GESTURE_BEGAN, onPan);
+            pan.addEventListener(GestureEvent.GESTURE_CHANGED, onPan);
+            pan.addEventListener(GestureEvent.GESTURE_ENDED, onPan);
         }
 
         private function onDoubleTap(event:GestureEvent):void
@@ -84,9 +81,25 @@ package
                 sprite.scaleX *= zoom.scaleX;
                 sprite.scaleY *= zoom.scaleY;
             }
-            if (event.type == GestureEvent.GESTURE_ENDED)
+            else if (event.type == GestureEvent.GESTURE_ENDED)
             {
                 sprite.scale = 1;
+            }
+        }
+
+        private function onPan(event:GestureEvent):void
+        {
+            var pan = event.target as PanGesture;
+
+            if (event.type == GestureEvent.GESTURE_CHANGED)
+            {
+                sprite.x += pan.offsetX;
+                sprite.y += pan.offsetY;
+            }
+            else if (event.type == GestureEvent.GESTURE_ENDED)
+            {
+                sprite.x = 240;
+                sprite.y = stage.stageHeight - 120;
             }
         }
     }
