@@ -7,23 +7,27 @@ package org.gestouch.gestures
 
 
 	/**
+	 * TODO:
+	 * - add numTapsRequired
 	 * 
 	 * @author Pavel fljot
 	 */
-	public class TapGesture extends AbstractDiscreteGesture
+	public class LongPressGesture extends AbstractContinuousGesture
 	{
 		public var numTouchesRequired:uint = 1;
-		public var numTapsRequired:uint = 1;
-		public var slop:Number = Gesture.DEFAULT_SLOP << 2;//iOS has 45px for 132 dpi screen
-		public var maxTapDelay:uint = 400;
-		public var maxTapDuration:uint = 1500;
+		/**
+		 * The minimum time interval in millisecond fingers must press on the target for the gesture to be recognized.
+		 * 
+		 * @default 500
+		 */
+		public var minPressDuration:uint = 500;
+		public var slop:Number = Gesture.DEFAULT_SLOP;
 		
 		protected var _timer:Timer;
 		protected var _numTouchesRequiredReached:Boolean;
-		protected var _tapCounter:uint = 0;
 		
 		
-		public function TapGesture(target:Object = null)
+		public function LongPressGesture(target:Object = null)
 		{
 			super(target);
 		}
@@ -45,22 +49,10 @@ package org.gestouch.gestures
 		
 		override public function reset():void
 		{
-			_numTouchesRequiredReached = false;
-			_tapCounter = 0;
-			_timer.stop();
-			
 			super.reset();
-		}
-		
-		
-		override function gestouch_internal_canPreventGesture(preventedGesture:Gesture):Boolean
-		{
-			if (preventedGesture is TapGesture &&
-				(preventedGesture as TapGesture).numTapsRequired > this.numTapsRequired)
-			{
-				return false;
-			}
-			return true;
+			
+			_numTouchesRequiredReached = false;
+			_timer.stop();
 		}
 		
 		
@@ -76,7 +68,7 @@ package org.gestouch.gestures
 		{
 			super.preinit();
 			
-			_timer = new Timer(maxTapDelay);
+			_timer = new Timer(minPressDuration);
 			_timer.onComplete = timer_timerCompleteHandler;
 		}
 		
@@ -89,53 +81,47 @@ package org.gestouch.gestures
 				return;
 			}
 			
-			if (touchesCount == 1)
-			{
-				_timer.stop();
-				_timer.delay = maxTapDuration;
-				_timer.start();
-			}
-			
 			if (touchesCount == numTouchesRequired)
 			{
 				_numTouchesRequiredReached = true;
-				updateLocation();
+				_timer.stop();
+				_timer.delay = minPressDuration > 0 ? minPressDuration : 1;
+				_timer.start();
 			}
 		}
 		
 		
 		override protected function onTouchMove(touch:Touch):void
 		{
-			if (slop >= 0 && touch.locationOffset.length > slop)
+			if (state == GestureState.POSSIBLE && slop > 0 && touch.locationOffset.length > slop)
 			{
 				setState(GestureState.FAILED);
+			}
+			else if (state == GestureState.BEGAN || state == GestureState.CHANGED)
+			{
+				updateLocation();
+				setState(GestureState.CHANGED);
 			}
 		}
 		
 		
 		override protected function onTouchEnd(touch:Touch):void
 		{
-			if (!_numTouchesRequiredReached)
+			if (_numTouchesRequiredReached)
 			{
-				setState(GestureState.FAILED);
-			}
-			else if (touchesCount == 0)
-			{
-				// reset flag for the next "full press" cycle
-				_numTouchesRequiredReached = false;
-				
-				_tapCounter++;
-				_timer.stop();
-				
-				if (_tapCounter == numTapsRequired)
+				if (state == GestureState.BEGAN || state == GestureState.CHANGED)
 				{
-					setState(GestureState.RECOGNIZED);
+					updateLocation();
+					setState(GestureState.ENDED);
 				}
 				else
 				{
-					_timer.delay = maxTapDelay;
-					_timer.start();
+					setState(GestureState.FAILED);
 				}
+			}
+			else
+			{
+				setState(GestureState.FAILED);
 			}
 		}
 		
@@ -152,7 +138,8 @@ package org.gestouch.gestures
 		{
 			if (state == GestureState.POSSIBLE)
 			{
-				setState(GestureState.FAILED);
+				updateLocation();
+				setState(GestureState.BEGAN);
 			}
 		}
 	}

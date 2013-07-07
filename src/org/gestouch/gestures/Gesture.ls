@@ -19,21 +19,21 @@ package org.gestouch.gestures
 	 * @eventType org.gestouch.events.GestureEvent
 	 * @see #state
 	 */
-	//[Event(name="gestureStateChange", type="org.gestouch.events.GestureEvent")]
+	[Event(name="gestureStateChange", type="org.gestouch.events.GestureEvent")]
 	/**
 	 * Dispatched when the state of the gesture changes to GestureState.POSSIBLE.
 	 * 
 	 * @eventType org.gestouch.events.GestureEvent
 	 * @see #state
 	 */
-	//[Event(name="gesturePossible", type="org.gestouch.events.GestureEvent")]
+	[Event(name="gesturePossible", type="org.gestouch.events.GestureEvent")]
 	/**
 	 * Dispatched when the state of the gesture changes to GestureState.FAILED.
 	 * 
 	 * @eventType org.gestouch.events.GestureEvent
 	 * @see #state
 	 */
-	//[Event(name="gestureFailed", type="org.gestouch.events.GestureEvent")]
+	[Event(name="gestureFailed", type="org.gestouch.events.GestureEvent")]
 	/**
 	 * Base class for all gestures. Gesture is essentially a detector that tracks touch points
 	 * in order detect specific gesture motion and form gesture event on target.
@@ -262,7 +262,7 @@ package org.gestouch.gestures
 		 * 
 		 * @see performance optimization tips
 		 */
-		public function reflect():String
+		public function reflect():Type
 		{
 			throw Error("reflect() is abstract method and must be overridden.");
 			return null;

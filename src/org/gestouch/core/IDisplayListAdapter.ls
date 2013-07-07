@@ -7,6 +7,6 @@ package org.gestouch.core
 	{
 		function getHierarchy(target:Object):Vector.<Object>;
 		
-		function reflect():String;
+		function reflect():Type;
 	}
 }

@@ -9,7 +9,7 @@ package org.gestouch.gestures
 	 * @eventType org.gestouch.events.GestureEvent
 	 * @see #state
 	 */
-	//[Event(name="gestureRecognized", type="org.gestouch.events.GestureEvent")]
+	[Event(name="gestureRecognized", type="org.gestouch.events.GestureEvent")]
 	/**
 	 * @author Pavel fljot
 	 */

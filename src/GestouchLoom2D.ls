@@ -8,8 +8,9 @@ package
     import loom2d.textures.Texture;
     import loom2d.ui.SimpleLabel;
 
-    import org.gestouch.gestures.TapGesture;
     import org.gestouch.events.GestureEvent;
+    import org.gestouch.gestures.TapGesture;
+    import org.gestouch.gestures.LongPressGesture;
 
     public class GestouchLoom2D extends Application
     {
@@ -49,12 +50,21 @@ package
             var doubleTap:TapGesture = new TapGesture(sprite);
             doubleTap.numTapsRequired = 2;
             doubleTap.addEventListener(GestureEvent.GESTURE_RECOGNIZED, onDoubleTap);
+
+            var longPress:LongPressGesture = new LongPressGesture(sprite);
+            longPress.addEventListener(GestureEvent.GESTURE_BEGAN, onLongPress);
+            longPress.addEventListener(GestureEvent.GESTURE_CHANGED, onLongPress);
+            longPress.addEventListener(GestureEvent.GESTURE_ENDED, onLongPress);
         }
 
         private function onDoubleTap(event:GestureEvent):void
         {
-            // handle double tap!
             trace("DOUBLE TAP!");
+        }
+
+        private function onLongPress(event:GestureEvent):void
+        {
+            trace("LONG PRESS! " + event.toString());
         }
     }
 }
