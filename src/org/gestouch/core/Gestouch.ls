@@ -92,40 +92,20 @@ package org.gestouch.core
 		
 		public static function gestouch_internal_createGestureTargetAdapter(target:Object):IDisplayListAdapter
 		{
-			const adapter:IDisplayListAdapter = Gestouch.gestouch_internal_getDisplayListAdapter(target);
-			if (adapter)
-			{
-				if (adapter.reflect() == "Loom2DDisplayListAdapter")
-				{
-					return new Loom2DDisplayListAdapter(target as DisplayObject);
-				}
-				//return Type.getTypeByName(adapter.reflect()).getConstructor().invoke(target) as IDisplayListAdapter;
-			}
-			
-			throw new Error("Cannot create adapter for target " + target + " of type " + target.getFullTypeName() + ".");
-			return null;
+			return new Loom2DDisplayListAdapter(target as DisplayObject);
 		}
 		
 		
 		public static function gestouch_internal_getDisplayListAdapter(object:Object):IDisplayListAdapter
 		{
-			for (var key:Object in _displayListAdaptersMap)
-			{
-				var targetClass:String = key as String;
-				if (object == targetClass)
-				{
-					return _displayListAdaptersMap[key] as IDisplayListAdapter;
-				}
-			}
-			
-			return null;
+			return _displayListAdaptersMap["loom2d.display.DisplayObject"] as IDisplayListAdapter;
 		}
 		
 		
 		private static function initClass():void
 		{
 			addTouchHitTester(new Loom2DTouchHitTester());
-			addDisplayListAdapter("DisplayObject", new Loom2DDisplayListAdapter());
+			addDisplayListAdapter("loom2d.display.DisplayObject", new Loom2DDisplayListAdapter());
 		}
 	}
 }

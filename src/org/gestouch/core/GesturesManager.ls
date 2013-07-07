@@ -83,7 +83,7 @@ package org.gestouch.core
 			else
 			{
 				targetGestures = _gesturesForTargetMap[target] = new Vector.<Gesture>();
-				targetGestures[0] = gesture;
+				targetGestures.push(gesture);
 			}
 			
 			

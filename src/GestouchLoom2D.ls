@@ -6,7 +6,10 @@ package
     import loom2d.display.Quad;
     import loom2d.math.Point;
     import loom2d.textures.Texture;
-    import loom2d.ui.Label;
+    import loom2d.ui.SimpleLabel;
+
+    import org.gestouch.gestures.TapGesture;
+    import org.gestouch.events.GestureEvent;
 
     public class GestouchLoom2D extends Application
     {
@@ -36,12 +39,22 @@ package
             sprite.y = stage.stageHeight - 120;
             stage.addChild(sprite);
 
-            var label = new Label("assets/Curse-hd.fnt", new Point(480, 128));
+            var label = new SimpleLabel("assets/Curse-hd.fnt");
             label.text = "Hello Loom!";
             label.x = 240;
             label.y = stage.stageHeight - 240;
 			label.center();
             stage.addChild(label);
+
+            var doubleTap:TapGesture = new TapGesture(sprite);
+            doubleTap.numTapsRequired = 2;
+            doubleTap.addEventListener(GestureEvent.GESTURE_RECOGNIZED, onDoubleTap);
+        }
+
+        private function onDoubleTap(event:GestureEvent):void
+        {
+            // handle double tap!
+            trace("DOUBLE TAP!");
         }
     }
 }

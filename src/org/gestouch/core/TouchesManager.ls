@@ -139,7 +139,7 @@ package org.gestouch.core
 				"See Gestouch#addTouchHitTester() and Gestouch#inputAdapter.");
 			}
 			
-			touch.target = target || altTarget;
+			touch.target = target != null ? target : altTarget;
 			touch.gestouch_internal_setLocation(x, y, Platform.getTime());
 			
 			_touchesMap[touchID] = touch;

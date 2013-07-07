@@ -49,7 +49,7 @@ package org.gestouch.extensions.loom2d
 			var target:DisplayObject = genericTarget as DisplayObject;
 			while (target)
 			{
-				list[i] = target;
+				list.push(target);
 				target = target.parent;
 				i++;
 			}
