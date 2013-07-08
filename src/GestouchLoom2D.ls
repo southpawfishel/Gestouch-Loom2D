@@ -15,6 +15,7 @@ package
     import org.gestouch.gestures.PanGesture;
     import org.gestouch.gestures.SwipeGesture;
     import org.gestouch.gestures.SwipeGestureDirection;
+    import org.gestouch.gestures.RotateGesture;
 
     public class GestouchLoom2D extends Application
     {
@@ -66,6 +67,10 @@ package
             var swipe = new SwipeGesture(bg);
             swipe.direction = SwipeGestureDirection.HORIZONTAL;
             swipe.addEventListener(GestureEvent.GESTURE_RECOGNIZED, onSwipe);
+
+            var rotate = new RotateGesture(stage);
+            rotate.addEventListener(GestureEvent.GESTURE_CHANGED, onRotate);
+            rotate.addEventListener(GestureEvent.GESTURE_ENDED, onRotate);
         }
 
         private function onDoubleTap(event:GestureEvent):void
@@ -123,6 +128,20 @@ package
                 {
                     trace("USER SWIPED LEFT!");
                 }
+            }
+        }
+
+        private function onRotate(event:GestureEvent):void
+        {
+            var rotate = event.target as RotateGesture;
+
+            if (event.type == GestureEvent.GESTURE_CHANGED)
+            {
+                sprite.rotation += rotate.rotation;
+            }
+            else if (event.type == GestureEvent.GESTURE_ENDED)
+            {
+                sprite.rotation = 0;
             }
         }
     }
