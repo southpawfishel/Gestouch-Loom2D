@@ -66,6 +66,13 @@ private function onFreeTransform(event:GestureEvent):void
 
 
 
+h3. Status of Loomscript Port
+
+* All gestures ported with the exception of TransformGesture
+* TransformGesture is on my current TODO list, and should be finished shortly
+
+
+
 h3. News
 
 * "Follow the creator of Gestouch on Twitter":http://twitter.com/fljot for latest updates
