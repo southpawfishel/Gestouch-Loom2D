@@ -8,7 +8,7 @@ package org.gestouch.gestures
 	import org.gestouch.events.GestureEvent;
 
 	import loom2d.events.EventDispatcher;
-	import org.gestouch.utils.Point;
+	import loom2d.math.Point;
 	
 	
 	/**

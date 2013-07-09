@@ -3,7 +3,7 @@ package org.gestouch.gestures
 	import org.gestouch.core.GestureState;
 	import org.gestouch.core.Touch;
 
-	import org.gestouch.utils.Point;
+	import loom2d.math.Point;
 
 
 	/**

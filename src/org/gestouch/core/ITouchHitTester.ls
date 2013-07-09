@@ -1,6 +1,6 @@
 package org.gestouch.core
 {
-	import org.gestouch.utils.Point;
+	import loom2d.math.Point;
 
 
 	/**

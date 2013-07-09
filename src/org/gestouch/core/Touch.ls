@@ -1,6 +1,6 @@
 package org.gestouch.core
 {
-	import org.gestouch.utils.Point;
+	import loom2d.math.Point;
 
 
 	/**
@@ -85,7 +85,7 @@ package org.gestouch.core
 		
 		public function get locationOffset():Point
 		{
-			return _location.subtract(_beginLocation);
+			return _location - _beginLocation;
 		}
 		
 		

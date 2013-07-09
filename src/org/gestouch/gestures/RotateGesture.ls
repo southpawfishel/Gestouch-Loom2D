@@ -3,7 +3,7 @@ package org.gestouch.gestures
 	import org.gestouch.core.GestureState;
 	import org.gestouch.core.Touch;
 
-	import org.gestouch.utils.Point;
+	import loom2d.math.Point;
 
 
 	/**
@@ -73,7 +73,7 @@ package org.gestouch.gestures
 			{
 				_touch2 = touch;
 				
-				_transformVector = _touch2.location.subtract(_touch1.location);
+				_transformVector = _touch2.location - _touch1.location;
 				
 				// @see chord length formula
 				_thresholdAngle = Math.asin(slop / (2 * _transformVector.length)) * 2;
@@ -86,7 +86,7 @@ package org.gestouch.gestures
 			if (touchesCount < 2)
 				return;
 			
-			var currTransformVector:Point = _touch2.location.subtract(_touch1.location);
+			var currTransformVector:Point = _touch2.location - _touch1.location;
 			var rotation:Number = Math.atan2(currTransformVector.y, currTransformVector.x) - Math.atan2(_transformVector.y, _transformVector.x);
 			
 			if (state == GestureState.POSSIBLE)

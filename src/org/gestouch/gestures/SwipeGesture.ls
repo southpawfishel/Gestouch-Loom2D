@@ -5,7 +5,7 @@ package org.gestouch.gestures
 	import org.gestouch.utils.GestureUtils;
 
 	import loom.platform.Timer;
-	import org.gestouch.utils.Point;
+	import loom2d.math.Point;
 
 
 	/**
