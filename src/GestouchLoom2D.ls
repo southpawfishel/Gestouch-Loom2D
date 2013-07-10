@@ -16,6 +16,7 @@ package
     import org.gestouch.gestures.SwipeGesture;
     import org.gestouch.gestures.SwipeGestureDirection;
     import org.gestouch.gestures.RotateGesture;
+    import org.gestouch.gestures.TransformGesture;
 
     public class GestouchLoom2D extends Application
     {
@@ -45,32 +46,37 @@ package
 			label.center();
             stage.addChild(label);
 
-            var doubleTap:TapGesture = new TapGesture(sprite);
-            doubleTap.numTapsRequired = 2;
-            doubleTap.addEventListener(GestureEvent.GESTURE_RECOGNIZED, onDoubleTap);
+            // var doubleTap:TapGesture = new TapGesture(sprite);
+            // doubleTap.numTapsRequired = 2;
+            // doubleTap.addEventListener(GestureEvent.GESTURE_RECOGNIZED, onDoubleTap);
 
-            var longPress:LongPressGesture = new LongPressGesture(sprite);
-            longPress.addEventListener(GestureEvent.GESTURE_BEGAN, onLongPress);
-            longPress.addEventListener(GestureEvent.GESTURE_CHANGED, onLongPress);
-            longPress.addEventListener(GestureEvent.GESTURE_ENDED, onLongPress);
+            // var longPress:LongPressGesture = new LongPressGesture(sprite);
+            // longPress.addEventListener(GestureEvent.GESTURE_BEGAN, onLongPress);
+            // longPress.addEventListener(GestureEvent.GESTURE_CHANGED, onLongPress);
+            // longPress.addEventListener(GestureEvent.GESTURE_ENDED, onLongPress);
 
-            var zoom = new ZoomGesture(stage);
-            zoom.addEventListener(GestureEvent.GESTURE_BEGAN, onZoom);
-            zoom.addEventListener(GestureEvent.GESTURE_CHANGED, onZoom);
-            zoom.addEventListener(GestureEvent.GESTURE_ENDED, onZoom);
+            // var swipe = new SwipeGesture(bg);
+            // swipe.direction = SwipeGestureDirection.HORIZONTAL;
+            // swipe.addEventListener(GestureEvent.GESTURE_RECOGNIZED, onSwipe);
 
-            var pan = new PanGesture(sprite);
-            pan.addEventListener(GestureEvent.GESTURE_BEGAN, onPan);
-            pan.addEventListener(GestureEvent.GESTURE_CHANGED, onPan);
-            pan.addEventListener(GestureEvent.GESTURE_ENDED, onPan);
+            // var zoom = new ZoomGesture(stage);
+            // zoom.addEventListener(GestureEvent.GESTURE_BEGAN, onZoom);
+            // zoom.addEventListener(GestureEvent.GESTURE_CHANGED, onZoom);
+            // zoom.addEventListener(GestureEvent.GESTURE_ENDED, onZoom);
 
-            var swipe = new SwipeGesture(bg);
-            swipe.direction = SwipeGestureDirection.HORIZONTAL;
-            swipe.addEventListener(GestureEvent.GESTURE_RECOGNIZED, onSwipe);
+            // var pan = new PanGesture(sprite);
+            // pan.maxNumTouchesRequired = 1;
+            // pan.addEventListener(GestureEvent.GESTURE_BEGAN, onPan);
+            // pan.addEventListener(GestureEvent.GESTURE_CHANGED, onPan);
+            // pan.addEventListener(GestureEvent.GESTURE_ENDED, onPan);
 
-            var rotate = new RotateGesture(stage);
-            rotate.addEventListener(GestureEvent.GESTURE_CHANGED, onRotate);
-            rotate.addEventListener(GestureEvent.GESTURE_ENDED, onRotate);
+            // var rotate = new RotateGesture(stage);
+            // rotate.addEventListener(GestureEvent.GESTURE_CHANGED, onRotate);
+            // rotate.addEventListener(GestureEvent.GESTURE_ENDED, onRotate);
+
+            var transform = new TransformGesture(stage);
+            transform.addEventListener(GestureEvent.GESTURE_CHANGED, onTransform);
+            transform.addEventListener(GestureEvent.GESTURE_ENDED, onTransform);
         }
 
         private function onDoubleTap(event:GestureEvent):void
@@ -81,6 +87,23 @@ package
         private function onLongPress(event:GestureEvent):void
         {
             trace("LONG PRESS! " + event.type);
+        }
+
+        private function onSwipe(event:GestureEvent):void
+        {
+            var swipe = event.target as SwipeGesture;
+
+            if (event.type == GestureEvent.GESTURE_RECOGNIZED)
+            {
+                if (swipe.offsetX > 0)
+                {
+                    trace("USER SWIPED RIGHT!");
+                }
+                else
+                {
+                    trace("USER SWIPED LEFT!");
+                }
+            }
         }
 
         private function onZoom(event:GestureEvent):void
@@ -114,23 +137,6 @@ package
             }
         }
 
-        private function onSwipe(event:GestureEvent):void
-        {
-            var swipe = event.target as SwipeGesture;
-
-            if (event.type == GestureEvent.GESTURE_RECOGNIZED)
-            {
-                if (swipe.offsetX > 0)
-                {
-                    trace("USER SWIPED RIGHT!");
-                }
-                else
-                {
-                    trace("USER SWIPED LEFT!");
-                }
-            }
-        }
-
         private function onRotate(event:GestureEvent):void
         {
             var rotate = event.target as RotateGesture;
@@ -138,9 +144,38 @@ package
             if (event.type == GestureEvent.GESTURE_CHANGED)
             {
                 sprite.rotation += rotate.rotation;
+                trace("rotation: " + rotate.rotation);
             }
             else if (event.type == GestureEvent.GESTURE_ENDED)
             {
+                sprite.rotation = 0;
+            }
+        }
+
+        private function onTransform(event:GestureEvent):void
+        {
+            var transform = event.target as TransformGesture;
+
+            if (event.type == GestureEvent.GESTURE_CHANGED)
+            {
+                if (transform.touchesCount < 2)
+                {
+                    //trace("offset: " + transform.offsetX + ", " + transform.offsetY);
+                    sprite.x += transform.offsetX;
+                    sprite.y += transform.offsetY;
+                }
+                else if (transform.touchesCount == 2)
+                {
+                    //trace("scale: " + sprite.scale + " rotation: " + transform.rotation);
+                    sprite.scale *= transform.scale;
+                    sprite.rotation += transform.rotation;
+                }
+            }
+            else if (event.type == GestureEvent.GESTURE_ENDED)
+            {
+                sprite.x = 240;
+                sprite.y = stage.stageHeight - 120;
+                sprite.scale = 1;
                 sprite.rotation = 0;
             }
         }
