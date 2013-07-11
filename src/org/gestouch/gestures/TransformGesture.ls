@@ -121,7 +121,7 @@ package org.gestouch.gestures
 			
 			if (state == GestureState.POSSIBLE)
 			{
-				if (slop > 0 && touch.locationOffset.length > slop)
+				if (slop > 0 && touch.locationOffset.length < slop)
 				{
 					// Not recognized yet
 					if (_touch2)

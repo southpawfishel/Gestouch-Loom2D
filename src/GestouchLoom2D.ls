@@ -74,7 +74,7 @@ package
             // rotate.addEventListener(GestureEvent.GESTURE_CHANGED, onRotate);
             // rotate.addEventListener(GestureEvent.GESTURE_ENDED, onRotate);
 
-            var transform = new TransformGesture(stage);
+            var transform = new TransformGesture(sprite);
             transform.addEventListener(GestureEvent.GESTURE_CHANGED, onTransform);
             transform.addEventListener(GestureEvent.GESTURE_ENDED, onTransform);
         }
@@ -160,13 +160,13 @@ package
             {
                 if (transform.touchesCount < 2)
                 {
-                    //trace("offset: " + transform.offsetX + ", " + transform.offsetY);
+                    trace("offset: " + transform.offsetX + ", " + transform.offsetY);
                     sprite.x += transform.offsetX;
                     sprite.y += transform.offsetY;
                 }
                 else if (transform.touchesCount == 2)
                 {
-                    //trace("scale: " + sprite.scale + " rotation: " + transform.rotation);
+                    trace("scale: " + sprite.scale + " rotation: " + transform.rotation);
                     sprite.scale *= transform.scale;
                     sprite.rotation += transform.rotation;
                 }
