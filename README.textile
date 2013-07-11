@@ -22,6 +22,8 @@ Features:
 
 h3. Getting Started
 
+NOTE: This library only builds/runs against the latest firehose, but when sprint29 ships, it will work with that release.
+
 All gestures dispatch (if you listen to!) GestureEvent with the next types:
 GestureEvent.GESTURE_STATE_CHANGE
 GestureEvent.GESTURE_IDLE
@@ -68,8 +70,8 @@ private function onFreeTransform(event:GestureEvent):void
 
 h3. Status of Loomscript Port
 
-* All gestures ported with the exception of TransformGesture
-* TransformGesture is on my current TODO list, and should be finished shortly
+* All gestures are 100% ported.
+* At the moment, the TransformGesture class won't work due to a bug in loom2d.math.Point.  I've posted a request for the issue to be fixed, and when it is fixed (hopefully in sprint29) this issue will go away on its own.
 
 
 
