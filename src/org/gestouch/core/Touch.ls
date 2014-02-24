@@ -33,7 +33,7 @@ package org.gestouch.core
 		}
 		
 		
-		protected var _location:Point;
+		protected var _location:Point = new Point(-1, -1);
 		public function get location():Point
 		{
 			return _location.clone();
@@ -49,7 +49,7 @@ package org.gestouch.core
 		}
 		public function gestouch_internal_updateLocation(x:Number, y:Number, time:uint):Boolean
 		{
-			if (_location)
+			if (!(_location.x == -1 && _location.y == -1))
 			{
 				if (_location.x == x && _location.y == y)
 					return false;
